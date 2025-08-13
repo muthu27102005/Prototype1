@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Weather Forecasting</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header id="headerText">🌦️ AI Weather Forecasting</header>
+<div id="container">
+    <label id="langLabel">Select Language:</label>
+    <select id="languageSelect" onchange="setLanguage()">
+        <option value="en">English</option>
+        <option value="ta">தமிழ்</option>
+    </select>
+    <h2 id="weatherTitle">AI Weather Forecasting Module</h2>
+    <p id="weatherDesc">Get the latest weather forecast for your location using AI-powered data.</p>
+    <input type="text" id="locationInput" placeholder="Enter your city or village..." style="width:80%; margin-bottom:10px;">
+    <button id="getWeatherBtn" onclick="getWeather()">Get Forecast</button>
+    <div id="weatherResult" style="margin-top:18px;"></div>
+    <br>
+    <button id="backBtn" onclick="window.location.href='index.html'">Back to Home</button>
+</div>
+<script>
+const translations = {
+  en: {
+    header: "🌦️ AI Weather Forecasting",
+    langLabel: "Select Language:",
+    title: "AI Weather Forecasting Module",
+    desc: "Get the latest weather forecast for your location using AI-powered data.",
+    placeholder: "Enter your city or village...",
+    getWeather: "Get Forecast",
+    back: "Back to Home",
+    error: "Could not fetch weather. Please try again.",
+    result: city => `Weather for ${city}:`
+  },
+  ta: {
+    header: "🌦️ ஏ.ஐ. வானிலை முன்னறிவு",
+    langLabel: "மொழியை தேர்ந்தெடுக்கவும்:",
+    title: "ஏ.ஐ. வானிலை முன்னறிவு பகுதி",
+    desc: "AI மூலம் உங்கள் இடத்திற்கு சமீபத்திய வானிலை முன்னறிவை பெறுங்கள்.",
+    placeholder: "உங்கள் நகரம் அல்லது கிராமம்...",
+    getWeather: "வானிலை பெறவும்",
+    back: "முகப்புக்கு திரும்பவும்",
+    error: "வானிலை பெற முடியவில்லை. மீண்டும் முயற்சிக்கவும்.",
+    result: city => `${city}க்கு வானிலை:`
+  }
+};
+function setLanguage() {
+  const lang = document.getElementById("languageSelect").value;
+  document.getElementById("headerText").innerText = translations[lang].header;
+  document.getElementById("langLabel").innerText = translations[lang].langLabel;
+  document.getElementById("weatherTitle").innerText = translations[lang].title;
+  document.getElementById("weatherDesc").innerText = translations[lang].desc;
+  document.getElementById("locationInput").placeholder = translations[lang].placeholder;
+  document.getElementById("getWeatherBtn").innerText = translations[lang].getWeather;
+  document.getElementById("backBtn").innerText = translations[lang].back;
+}
+document.addEventListener("DOMContentLoaded", setLanguage);
+
+function getWeather() {
+  const city = document.getElementById("locationInput").value.trim();
+  const lang = document.getElementById("languageSelect").value;
+  const resultDiv = document.getElementById("weatherResult");
+  if (!city) {
+    resultDiv.innerHTML = `<span style='color:red;'>${translations[lang].error}</span>`;
+    return;
+  }
+  resultDiv.innerHTML = `<span>${translations[lang].result(city)} <em>Loading...</em></span>`;
+  // Example using OpenWeatherMap API (replace YOUR_API_KEY with a real key)
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=YOUR_API_KEY&units=metric`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.cod !== 200) {
+        resultDiv.innerHTML = `<span style='color:red;'>${translations[lang].error}</span>`;
+        return;
+      }
+      const temp = data.main.temp;
+      const desc = data.weather[0].description;
+      resultDiv.innerHTML = `<b>${translations[lang].result(city)}</b> <br>🌡️ ${temp}°C<br>☁️ ${desc}`;
+    })
+    .catch(() => {
+      resultDiv.innerHTML = `<span style='color:red;'>${translations[lang].error}</span>`;
+    });
+}
+</script>
+</body>
+</html>

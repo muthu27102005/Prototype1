@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AgriConnect - All in one platform for Farmers</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header id="headerText">AgriConnect</header>
+
+<div id="container">
+    <label id="langLabel">Select Language:</label>
+    <select id="languageSelect" onchange="setLanguage()">
+        <option value="en">English</option>
+        <option value="ta">தமிழ்</option>
+    </select>
+
+    <div id="modules" style="margin: 24px 0;">
+        <div style="display:flex; flex-direction:column; gap:18px;">
+            <a href="marketplace.html" class="module-card" style="padding:24px; font-size:1.3em; background:#e8f5e9; border-radius:16px; border:none; box-shadow:0 2px 8px #cfd8dc; display:flex; align-items:center; gap:18px; cursor:pointer; text-decoration:none; color:inherit; transition:box-shadow 0.2s;">
+                <img src="https://img.icons8.com/color/96/000000/market-square.png" alt="MarketPlace" style="width:48px; height:48px;">
+                <span id="marketplaceTitle">MarketPlace</span>
+            </a>
+            <a href="aiimage.html" class="module-card" style="padding:24px; font-size:1.3em; background:#fffde7; border-radius:16px; border:none; box-shadow:0 2px 8px #cfd8dc; display:flex; align-items:center; gap:18px; cursor:pointer; text-decoration:none; color:inherit; transition:box-shadow 0.2s;">
+                <img src="https://img.icons8.com/color/96/000000/artificial-intelligence.png" alt="AI Image Detecting" style="width:48px; height:48px;">
+                <span id="aiImageTitle">AI Image Detecting</span>
+            </a>
+            <a href="community.html" class="module-card" style="padding:24px; font-size:1.3em; background:#e3f2fd; border-radius:16px; border:none; box-shadow:0 2px 8px #cfd8dc; display:flex; align-items:center; gap:18px; cursor:pointer; text-decoration:none; color:inherit; transition:box-shadow 0.2s;">
+                <img src="https://img.icons8.com/fluency/96/000000/group-chat.png" alt="Community" style="width:48px; height:48px;">
+                <span id="communityTitle">Community for Farmers</span>
+            </a>
+        </div>
+        <div id="newsSection" style="margin-top:32px;">
+            <h3 id="newsTitle" style="margin-bottom:12px;">Latest Agri News</h3>
+            <ul id="newsList" style="background:#f9fbe7; border-radius:8px; padding:12px; box-shadow:0 2px 8px #cfd8dc;"></ul>
+        </div>
+    </div>
+
+    <div id="marketplaceSection" style="display:none;">
+        <div class="alert" id="alertBox"></div>
+        <div style="text-align:center; margin: 15px 0;">
+            <button class="voice-btn" onclick="playAudioInstruction()">
+                <span role="img" aria-label="audio">🔊</span>
+            </button>
+            <span style="font-size:1.1em;">Listen to instructions</span>
+        </div>
+        <div class="action-btns">
+            <button onclick="showBuyBox()">
+                <img src="https://img.icons8.com/color/96/000000/buy.png" alt="Buy" />
+                <span>Buy</span>
+            </button>
+            <button class="sell" onclick="action('sell')">
+                <img src="https://img.icons8.com/color/96/000000/sell.png" alt="Sell" />
+                <span>Sell</span>
+            </button>
+        </div>
+        <div id="buyBox" style="display:none; margin-bottom:15px;">
+            <label for="cropSelect">Crop:</label>
+            <select id="cropSelect">
+                <option value="Banana">Banana</option>
+                <option value="Rice">Rice</option>
+                <option value="Wheat">Wheat</option>
+                <option value="Tomato">Tomato</option>
+            </select>
+            <label for="qtyInput">Quantity (kg):</label>
+            <input type="number" id="qtyInput" min="1" max="1000" value="10">
+            <button onclick="submitBuyRequest()" style="margin-top:8px;">Request</button>
+        </div>
+        <div id="offerBox" style="display:none; margin-bottom:15px; text-align:center;">
+            <div id="offerText" style="margin-bottom:8px;"></div>
+            <button onclick="acceptOffer()" style="background:#c8e6c9; margin-right:10px;">Accept</button>
+            <button onclick="negotiateOffer()" style="background:#ffe0b2;">Negotiate</button>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+            <button class="gps-btn" onclick="getLocation()" title="Find Nearby Farmers">
+                <span role="img" aria-label="gps">📍</span>
+            </button>
+            <button class="voice-btn" onclick="startVoiceInput()" title="Voice Input">
+                <span role="img" aria-label="mic">🎤</span>
+            </button>
+        </div>
+        <div id="chat"></div>
+        <button onclick="goHome()" style="margin-top:18px;">Back to Home</button>
+    </div>
+
+    <div id="aiImageSection" style="display:none; text-align:center;">
+        <h2 id="aiImageSectionTitle">AI Image Detecting (Prototype)</h2>
+        <p id="aiImageSectionDesc">Upload a crop or disease image to identify (feature coming soon).</p>
+        <input type="file" accept="image/*" style="margin-bottom:12px;">
+        <button id="detectBtn" disabled>Detect (Coming Soon)</button>
+        <br>
+        <button id="aiBackBtn" onclick="goHome()" style="margin-top:18px;">Back to Home</button>
+    </div>
+
+    <div id="communitySection" style="display:none; text-align:center;">
+        <h2 id="communitySectionTitle">Community for Farmers</h2>
+        <div id="communityChat" style="height:220px; overflow-y:auto; border:1px solid #cfd8dc; border-radius:8px; background:#f9fbe7; margin-bottom:12px; padding:10px;"></div>
+        <input type="text" id="communityInput" placeholder="Ask a question or chat..." style="width:80%;">
+        <button id="communitySendBtn" onclick="sendCommunityMsg()">Send</button>
+        <br>
+        <button id="communityBackBtn" onclick="goHome()" style="margin-top:18px;">Back to Home</button>
+    </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+const newsData = {
+    en: [
+        "Govt announces new MSP for rice and wheat.",
+        "Heavy rains expected in Tamil Nadu this week.",
+        "New AI tool helps detect crop diseases early.",
+        "Farmer community event on August 20th."
+    ],
+    ta: [
+        "அரிசி மற்றும் கோதுமைக்கு புதிய குறைந்தபட்ச ஆதரவு விலை அறிவிப்பு.",
+        "இந்த வாரம் தமிழ்நாட்டில் கனமழை எதிர்பார்க்கப்படுகிறது.",
+        "பயிர் நோய்களை விரைவில் கண்டறிய புதிய ஏ.ஐ. கருவி.",
+        "ஆகஸ்ட் 20-ஆம் தேதி விவசாயிகள் சமூக நிகழ்வு." 
+    ]
+};
+function setNewsLanguage(lang) {
+    document.getElementById("newsTitle").innerText = lang === "ta" ? "சமீபத்திய Agri செய்திகள்" : "Latest Agri News";
+    const newsList = document.getElementById("newsList");
+    newsList.innerHTML = newsData[lang].map(item => `<li>${item}</li>`).join("");
+}
+document.addEventListener("DOMContentLoaded", function() {
+    setNewsLanguage(document.getElementById("languageSelect").value);
+    document.getElementById("languageSelect").addEventListener("change", function(e) {
+        setNewsLanguage(e.target.value);
+    });
+});
+</script>
+
+</body>
+</html>
