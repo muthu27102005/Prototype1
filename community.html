@@ -4,22 +4,25 @@
 <meta charset="UTF-8">
 <title>Community for Farmers</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../templates/style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header id="headerText">👥 Community for Farmers</header>
+<header id="headerText">Community for Farmers</header>
 <div id="container">
-    <label id="langLabel">Select Language:</label>
-    <select id="languageSelect" onchange="setLanguage()">
-        <option value="en">English</option>
-        <option value="ta">தமிழ்</option>
-    </select>
-    <h2 id="communityTitle">Community for Farmers Module</h2>
-    <div id="communityChat" style="height:220px; overflow-y:auto; border:1px solid #cfd8dc; border-radius:8px; background:#f9fbe7; margin-bottom:12px; padding:10px;"></div>
-    <input type="text" id="communityInput" placeholder="Ask a question or chat..." style="width:80%;">
-    <button id="sendBtn" onclick="sendCommunityMsg()">Send</button>
-    <br><br>
-    <button id="backBtn" onclick="window.location.href='../marketplace.html'">Back to Home</button>
+  <label id="langLabel">Select Language:</label>
+  <select id="languageSelect" onchange="setLanguage()">
+    <option value="en">English</option>
+    <option value="ta">தமிழ்</option>
+  </select>
+  <div style="margin:24px 0 18px 0;">
+    <h2 id="communityTitle" style="color:#1976d2; font-size:1.6em; margin-bottom:8px;">Community for Farmers Module</h2>
+  </div>
+  <div id="communityChat" style="height:220px; overflow-y:auto; border:1px solid #cfd8dc; border-radius:8px; background:#f9fbe7; margin-bottom:12px; padding:10px;"></div>
+  <div style="display:flex; gap:12px; margin-bottom:18px;">
+    <input type="text" id="communityInput" placeholder="Ask a question or chat..." style="width:70%;">
+    <button id="sendBtn" onclick="sendCommunityMsg()" style="background:#e3f2fd; color:#1976d2; border:none; border-radius:8px; padding:12px 24px; font-size:1em; box-shadow:0 2px 8px #cfd8dc; cursor:pointer;">Send</button>
+  </div>
+  <button id="backBtn" onclick="window.location.href='index.html'" style="margin-top:18px;">Back to Home</button>
 </div>
 <script>
 const translations = {

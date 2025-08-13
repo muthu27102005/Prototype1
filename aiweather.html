@@ -7,16 +7,16 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header id="headerText">🌦️ AI Weather Forecasting</header>
+<header id="headerText">AI Weather Forecasting</header>
 <div id="container">
     <label id="langLabel">Select Language:</label>
     <select id="languageSelect" onchange="setLanguage()">
         <option value="en">English</option>
         <option value="ta">தமிழ்</option>
     </select>
-    <h2 id="weatherTitle">AI Weather Forecasting Module</h2>
-    <p id="weatherDesc">Get the latest weather forecast for your location using AI-powered data.</p>
-    <input type="text" id="locationInput" placeholder="Enter your city or village..." style="width:80%; margin-bottom:10px;">
+    <h2 id="weatherTitle" style="color:#388e3c; font-size:1.6em; margin-bottom:8px;">AI Weather Forecasting Module</h2>
+    <p id="weatherDesc" style="font-size:1.1em; color:#388e3c;">Get the latest weather forecast for your location using AI-powered data.</p>
+    <input type="text" id="locationInput" placeholder="Enter your city or village..." style="width:70%;">
     <button id="getWeatherBtn" onclick="getWeather()">Get Forecast</button>
     <div id="weatherResult" style="margin-top:18px;"></div>
     <br>

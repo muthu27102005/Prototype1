@@ -4,19 +4,25 @@
 <meta charset="UTF-8">
 <title>MarketPlace</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../templates/style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header id="headerText">🌾 MarketPlace</header>
+<header id="headerText">MarketPlace</header>
 <div id="container">
-    <label id="langLabel">Select Language:</label>
-    <select id="languageSelect" onchange="setLanguage()">
-        <option value="en">English</option>
-        <option value="ta">தமிழ்</option>
-    </select>
-    <h2 id="marketplaceTitle">MarketPlace Module</h2>
-    <p id="marketplaceDesc">Direct connect for buying/selling crops.</p>
-    <button id="backBtn" onclick="window.location.href='index.html'">Back to Home</button>
+  <label id="langLabel">Select Language:</label>
+  <select id="languageSelect" onchange="setLanguage()">
+    <option value="en">English</option>
+    <option value="ta">தமிழ்</option>
+  </select>
+  <div style="margin:24px 0 18px 0;">
+    <h2 id="marketplaceTitle" style="color:#2e7d32; font-size:1.6em; margin-bottom:8px;">MarketPlace Module</h2>
+    <p id="marketplaceDesc" style="font-size:1.1em; color:#388e3c;">Direct connect for buying/selling crops.</p>
+  </div>
+  <div style="display:flex; gap:18px; justify-content:center; margin-bottom:24px;">
+    <button style="background:#00ee14; color:#000000; border:none; border-radius:12px; padding:18px 32px; font-size:1.1em; box-shadow:0 2px 8px #cfd8dc; cursor:pointer;">Buy Crops</button>
+    <button style="background:#ff0000; color:#000000; border:none; border-radius:12px; padding:18px 32px; font-size:1.1em; box-shadow:0 2px 8px #cfd8dc; cursor:pointer;">Sell Crops</button>
+  </div>
+  <button id="backBtn" onclick="window.location.href='index.html'" style="margin-top:18px;">Back to Home</button>
 </div>
 <script>
 const translations = {

@@ -1,19 +1,20 @@
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
-  background: #f4f8f4;
+  background: linear-gradient(135deg, #e8f5e9 0%, #f4f8f4 100%);
   margin: 0;
 }
 header {
-  background: linear-gradient(90deg, #2e7d32, #388e3c);
+  background: linear-gradient(90deg, #2e7d32 0%, #388e3c 100%);
   color: #fff;
-  padding: 18px 0;
+  padding: 24px 0 20px 0;
   text-align: center;
-  font-size: 2em;
+  font-size: 2.2em;
   letter-spacing: 1px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+  border-bottom: 1px solid #cfd8dc;
 }
 #container {
-  max-width: 600px;
+  max-width: 700px;
   margin: 30px auto;
   background: #fff;
   border-radius: 18px;
@@ -29,120 +30,64 @@ select, input, button {
   border: 1px solid #cfd8dc;
   box-sizing: border-box;
 }
-#chat {
-  height: 260px;
-  overflow-y: auto;
-  border: 1px solid #cfd8dc;
-  padding: 10px;
-  background: #f9fbe7;
-  border-radius: 8px;
-  margin-bottom: 12px;
+#modules {
+  margin: 24px 0;
 }
-.msg {
-  margin: 7px 0;
-  padding: 8px 12px;
-  border-radius: 8px;
-  max-width: 80%;
-  display: inline-block;
-}
-.user {
-  background: #e3f2fd;
-  color: #1976d2;
-  float: right;
-  clear: both;
-}
-.bot {
-  background: #e8f5e9;
-  color: #388e3c;
-  float: left;
-  clear: both;
-}
-.action-btns {
+.modules-row {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 18px;
+  flex-direction: row;
+  gap: 18px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-.action-btns button {
-  width: 110px;
-  height: 110px;
+.module-card {
+  padding: 24px;
   font-size: 1.2em;
+  background: #e8f5e9;
   border-radius: 16px;
   border: none;
-  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+  box-shadow: 0 2px 8px #cfd8dc;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: #e0ffe0;
-  transition: background 0.2s;
+  gap: 18px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #2e7d32;
+  transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
+  min-width: 220px;
+  max-width: 260px;
 }
-.action-btns button.sell {
-  background: #ffe0e0;
-}
-.action-btns button img {
+.module-card img {
   width: 48px;
   height: 48px;
-  margin-bottom: 8px;
 }
-@media (max-width: 600px) {
+.module-card:hover {
+  box-shadow: 0 6px 24px #388e3c;
+  transform: translateY(-2px) scale(1.03);
+  background: #c8e6c9;
+  color: #1b5e20;
+}
+#newsSection {
+  margin-top: 32px;
+}
+#newsList {
+  background: #f9fbe7;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 8px #cfd8dc;
+}
+@media (max-width: 900px) {
   #container {
     max-width: 98vw;
     padding: 10vw 2vw;
   }
-  header {
-    font-size: 1.3em;
-    padding: 12px 0;
+  .modules-row {
+    flex-direction: column;
+    align-items: center;
   }
-  .action-btns button {
-    width: 80px;
-    height: 80px;
-    font-size: 1em;
+  .module-card {
+    min-width: 180px;
+    max-width: 98vw;
+    width: 100%;
   }
-  .action-btns button img {
-    width: 32px;
-    height: 32px;
-  }
-}
-.module-card {
-  cursor: pointer;
-  transition: box-shadow 0.2s, transform 0.2s;
-}
-.module-card:hover {
-  box-shadow: 0 6px 24px #b2dfdb;
-  transform: translateY(-2px) scale(1.03);
-}
-.voice-btn {
-  background: #fffde7;
-  border: 2px solid #ffd600;
-  border-radius: 50%;
-  width: 56px;
-  height: 56px;
-  font-size: 2em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 10px auto;
-  cursor: pointer;
-}
-.gps-btn {
-  background: #e3f2fd;
-  border: 2px solid #1976d2;
-  border-radius: 50%;
-  width: 56px;
-  height: 56px;
-  font-size: 2em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 10px auto;
-  cursor: pointer;
-}
-.alert {
-  background: #fff3e0;
-  color: #e65100;
-  padding: 8px 12px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  font-size: 1em;
-  text-align: center;
 }

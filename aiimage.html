@@ -4,22 +4,25 @@
 <meta charset="UTF-8">
 <title>AI Image Detecting</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../templates/style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header id="headerText">🤖 AI Image Detecting</header>
+<header id="headerText">AI Image Detecting</header>
 <div id="container">
-    <label id="langLabel">Select Language:</label>
-    <select id="languageSelect" onchange="setLanguage()">
-        <option value="en">English</option>
-        <option value="ta">தமிழ்</option>
-    </select>
-    <h2 id="aiTitle">AI Image Detecting Module</h2>
-    <p id="aiDesc">Upload a crop or disease image to identify (feature coming soon).</p>
-    <input type="file" accept="image/*">
-    <button id="detectBtn" disabled>Detect (Coming Soon)</button>
-    <br><br>
-    <button id="backBtn" onclick="window.location.href='../marketplace.html'">Back to Home</button>
+  <label id="langLabel">Select Language:</label>
+  <select id="languageSelect" onchange="setLanguage()">
+    <option value="en">English</option>
+    <option value="ta">தமிழ்</option>
+  </select>
+  <div style="margin:24px 0 18px 0;">
+    <h2 id="aiTitle" style="color:#e65100; font-size:1.6em; margin-bottom:8px;">AI Image Detecting Module</h2>
+    <p id="aiDesc" style="font-size:1.1em; color:#e65100;">Upload a crop or disease image to identify (feature coming soon).</p>
+  </div>
+  <div style="display:flex; gap:12px; align-items:center; margin-bottom:18px;">
+    <input type="file" accept="image/*" style="width:70%;">
+    <button id="detectBtn" disabled style="background:#fffde7; color:#e65100; border:none; border-radius:8px; padding:12px 24px; font-size:1em; box-shadow:0 2px 8px #cfd8dc; cursor:not-allowed;">Detect (Coming Soon)</button>
+  </div>
+  <button id="backBtn" onclick="window.location.href='index.html'" style="margin-top:18px;">Back to Home</button>
 </div>
 <script>
 const translations = {
