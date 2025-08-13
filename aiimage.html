@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Image Detecting</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../templates/style.css">
+</head>
+<body>
+<header id="headerText">🤖 AI Image Detecting</header>
+<div id="container">
+    <label id="langLabel">Select Language:</label>
+    <select id="languageSelect" onchange="setLanguage()">
+        <option value="en">English</option>
+        <option value="ta">தமிழ்</option>
+    </select>
+    <h2 id="aiTitle">AI Image Detecting Module</h2>
+    <p id="aiDesc">Upload a crop or disease image to identify (feature coming soon).</p>
+    <input type="file" accept="image/*">
+    <button id="detectBtn" disabled>Detect (Coming Soon)</button>
+    <br><br>
+    <button id="backBtn" onclick="window.location.href='../marketplace.html'">Back to Home</button>
+</div>
+<script>
+const translations = {
+  en: {
+    header: "🤖 AI Image Detecting",
+    langLabel: "Select Language:",
+    title: "AI Image Detecting Module",
+    desc: "Upload a crop or disease image to identify (feature coming soon).",
+    detect: "Detect (Coming Soon)",
+    back: "Back to Home"
+  },
+  ta: {
+    header: "🤖 ஏ.ஐ. படம் கண்டறிதல்",
+    langLabel: "மொழியை தேர்ந்தெடுக்கவும்:",
+    title: "ஏ.ஐ. படம் கண்டறிதல் பகுதி",
+    desc: "பயிர் அல்லது நோய் படத்தை பதிவேற்றவும் (விரைவில் அமையும்).",
+    detect: "கண்டறி (விரைவில்)",
+    back: "முகப்புக்கு திரும்பவும்"
+  }
+};
+function setLanguage() {
+  const lang = document.getElementById("languageSelect").value;
+  document.getElementById("headerText").innerText = translations[lang].header;
+  document.getElementById("langLabel").innerText = translations[lang].langLabel;
+  document.getElementById("aiTitle").innerText = translations[lang].title;
+  document.getElementById("aiDesc").innerText = translations[lang].desc;
+  document.getElementById("detectBtn").innerText = translations[lang].detect;
+  document.getElementById("backBtn").innerText = translations[lang].back;
+}
+document.addEventListener("DOMContentLoaded", setLanguage);
+</script>
+</body>
+</html>
