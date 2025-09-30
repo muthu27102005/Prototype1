@@ -14,7 +14,7 @@ header {
   border-bottom: 1px solid #cfd8dc;
 }
 #container {
-  max-width: 700px;
+  max-width: 1200px;
   margin: 30px auto;
   background: #fff;
   border-radius: 18px;
@@ -64,17 +64,19 @@ select, input, button {
 .module-card:hover {
   box-shadow: 0 6px 24px #388e3c;
   transform: translateY(-2px) scale(1.03);
-  background: #c8e6c9;
+  background: #07760a;
   color: #1b5e20;
 }
 #newsSection {
-  margin-top: 32px;
+  margin-top: 35px;
+  width: 870px;
 }
 #newsList {
   background: #f9fbe7;
-  border-radius: 8px;
-  padding: 12px;
+  border-radius: 20px;
+  padding: 20px;
   box-shadow: 0 2px 8px #cfd8dc;
+  align-items: center;
 }
 @media (max-width: 900px) {
   #container {
@@ -91,3 +93,4 @@ select, input, button {
     width: 100%;
   }
 }
+  
