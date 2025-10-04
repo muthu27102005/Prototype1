@@ -353,6 +353,51 @@
     transform: translateY(-2px);
   }
 
+  /* Home button */
+  .home-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: linear-gradient(135deg, #ffffff, #ffffff);
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(14, 99, 17, 0.3);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .home-button:hover {
+    background: linear-gradient(135deg, #444744, #7b948f);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(70, 90, 70, 0.4);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .home-button:active {
+    transform: translateY(0px);
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+  }
+
+  .home-icon {
+    font-size: 1.2em;
+    transition: transform 0.3s ease;
+  }
+
+  .home-button:hover .home-icon {
+    transform: scale(1.1);
+  }
+
   /* Responsive design */
   @media (max-width: 768px) {
     header {
@@ -389,51 +434,57 @@
       align-items: center;
       gap: 10px;
     }
-  }
 
-  /* Success message */
-  .success-message {
-    background: #d4edda;
-    color: #155724;
-    padding: 15px;
-    border-radius: 10px;
-    margin: 20px 0;
-    text-align: center;
-    border: 1px solid #c3e6cb;
-    display: none;
-  }
+    /* Success message */
+    .success-message {
+      background: #d4edda;
+      color: #155724;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px 0;
+      text-align: center;
+      border: 1px solid #c3e6cb;
+      display: none;
+    }
 
-  /* Recommendations section */
-  .recommendations {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 2px solid #ecf0f1;
-  }
+    /* Recommendations section */
+    .recommendations {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 2px solid #ecf0f1;
+    }
 
-  .recommendations h4 {
-    color: #2c3e50;
-    margin-bottom: 15px;
-    font-size: 1.2em;
-  }
+    .recommendations h4 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+      font-size: 1.2em;
+    }
 
-  .recommendation-item {
-    padding: 8px 0;
-    color: #34495e;
-    font-size: 1em;
-    line-height: 1.4;
-  }
+    .recommendation-item {
+      padding: 8px 0;
+      color: #34495e;
+      font-size: 1em;
+      line-height: 1.4;
+    }
 
-  .recommendation-item::before {
-    content: "• ";
-    color: #3498db;
-    font-weight: bold;
-    margin-right: 8px;
+    .recommendation-item::before {
+      content: "• ";
+      color: #3498db;
+      font-weight: bold;
+      margin-right: 8px;
+    }
   }
 </style>
 </head>
 <body>
 <!-- Simple background pattern -->
 <div class="bg-pattern"></div>
+
+<!-- Home Button -->
+<a href="index.html" class="home-button" title="Back to Home">
+  <span class="home-icon">🏠</span>
+  <span class="home-text" id="homeText">Home</span>
+</a>
 
 <header id="headerText">🤖 AI Image Detection</header>
 
@@ -527,6 +578,7 @@ const translations = {
     clear: "Clear Results",
     download: "Download Report",
     back: "Back to Home",
+    home: "Home", // Add home translation
     loading: "Analyzing image with AI...",
     analysisTitle: "AI Analysis Results",
     resultsTitle: "🌱 Detection Results",
@@ -549,6 +601,7 @@ const translations = {
     clear: "முடிவுகளை அழி",
     download: "அறிக்கை பதிவிறக்கம்",
     back: "முகப்புக்கு திரும்பவும்",
+    home: "முகப்பு", // Add Tamil home translation
     loading: "ஏ.ஐ. மூலம் படத்தை பகுப்பாய்வு செய்கிறது...",
     analysisTitle: "ஏ.ஐ. பகுப்பாய்வு முடிவுகள்",
     resultsTitle: "🌱 கண்டறிதல் முடிவுகள்",
@@ -795,6 +848,7 @@ function setLanguage() {
   document.getElementById("clearText").innerText = t.clear;
   document.getElementById("downloadText").innerText = t.download;
   document.getElementById("backText").innerText = t.back;
+  document.getElementById("homeText").innerText = t.home; // Add home text translation
   document.getElementById("loadingText").innerText = t.loading;
   document.getElementById("analysisTitle").innerText = t.analysisTitle;
   document.getElementById("successText").innerText = t.successText;

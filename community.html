@@ -477,6 +477,61 @@
     width: 80px;
   }
 
+  /* Home button */
+  .home-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .home-button:hover {
+    background: linear-gradient(135deg, #388e3c, #2e7d32);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .home-button:active {
+    transform: translateY(0px);
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+  }
+
+  .home-icon {
+    font-size: 1.2em;
+    transition: transform 0.3s ease;
+  }
+
+  .home-button:hover .home-icon {
+    transform: scale(1.1);
+  }
+
+  /* Responsive home button */
+  @media (max-width: 768px) {
+    .home-button {
+      top: 15px;
+      left: 15px;
+      padding: 10px 16px;
+      font-size: 0.9em;
+    }
+  }
+
   /* Responsive design */
   @media (max-width: 768px) {
     #container {
@@ -592,6 +647,12 @@
 <body>
 <div class="particles" id="particles"></div>
 
+<!-- Home Button -->
+<a href="index.html" class="home-button" title="Back to Home">
+  <span class="home-icon">🏠</span>
+  <span class="home-text" id="homeText">Home</span>
+</a>
+
 <header id="headerText">👥 Community for Farmers</header>
 
 <div id="container">
@@ -683,6 +744,7 @@ const translations = {
     placeholder: "Ask a question or chat...",
     send: "Send",
     back: "Back to Home",
+    home: "Home", // Add home translation
     welcome: "Welcome to the Farmers Community! Ask questions, share experiences, and connect with fellow farmers.",
     online: "farmers online",
     typing: "Farmer is typing...",
@@ -718,6 +780,7 @@ const translations = {
     placeholder: "கேள்வி கேளுங்கள் அல்லது உரையாடுங்கள்...",
     send: "அனுப்பு",
     back: "முகப்புக்கு திரும்பவும்",
+    home: "முகப்பு", // Add Tamil home translation
     welcome: "விவசாயிகள் சமூகத்திற்கு வருக! கேள்விகள் கேளுங்கள், அனுபவங்களைப் பகிருங்கள், சக விவசாயிகளுடன் இணையுங்கள்.",
     online: "விவசாயிகள் ஆன்லைனில்",
     typing: "விவசாயி தட்டச்சு செய்கிறார்...",
@@ -1001,6 +1064,7 @@ function setLanguage() {
   document.getElementById("communityInput").placeholder = t.placeholder;
   document.getElementById("sendText").innerText = t.send;
   document.getElementById("backText").innerText = t.back;
+  document.getElementById("homeText").innerText = t.home; // Add home text translation
   document.getElementById("welcomeMsg").innerText = t.welcome;
   document.getElementById("onlineText").innerText = `${Math.floor(Math.random() * 30) + 15} ${t.online}`;
   document.getElementById("typingText").innerText = t.typing;

@@ -451,6 +451,51 @@
     box-shadow: 0 8px 20px rgba(255, 152, 0, 0.4);
   }
 
+  /* Home button */
+  .home-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .home-button:hover {
+    background: linear-gradient(135deg, #388e3c, #2e7d32);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .home-button:active {
+    transform: translateY(0px);
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+  }
+
+  .home-icon {
+    font-size: 1.2em;
+    transition: transform 0.3s ease;
+  }
+
+  .home-button:hover .home-icon {
+    transform: scale(1.1);
+  }
+
   /* Responsive design */
   @media (max-width: 768px) {
     header {
@@ -482,6 +527,14 @@
     .language-section {
       flex-direction: column;
       gap: 10px;
+    }
+
+    /* Home button */
+    .home-button {
+      top: 15px;
+      left: 15px;
+      padding: 10px 16px;
+      font-size: 0.9em;
     }
   }
 
@@ -526,6 +579,12 @@
 <body>
 <!-- Animated background elements -->
 <div class="bg-elements" id="bgElements"></div>
+
+<!-- Home Button -->
+<a href="index.html" class="home-button" title="Back to Home">
+  <span class="home-icon">🏠</span>
+  <span class="home-text" id="homeText">Home</span>
+</a>
 
 <header id="headerText">🌾 MarketPlace</header>
 
@@ -635,6 +694,7 @@ const translations = {
     title: "MarketPlace Module",
     desc: "Direct connect for buying/selling crops with farmers nationwide.",
     back: "Back to Home",
+    home: "Home",
     actionTitle: "Choose Your Action",
     buyTitle: "Buy Fresh Crops",
     buyDesc: "Browse and purchase fresh crops directly from farmers. Get the best quality at competitive prices.",
@@ -660,6 +720,7 @@ const translations = {
     title: "சந்தை பகுதி",
     desc: "நாடு முழுவதும் உள்ள விவசாயிகளுடன் பயிர்களை வாங்க/விற்க நேரடி இணைப்பு.",
     back: "முகப்புக்கு திரும்பவும்",
+    home: "முகப்பு",
     actionTitle: "உங்கள் செயலைத் தேர்ந்தெடுக்கவும்",
     buyTitle: "புதிய பயிர்களை வாங்கவும்",
     buyDesc: "விவசாயிகளிடமிருந்து நேரடியாக புதிய பயிர்களை உலாவி வாங்கவும். போட்டி விலையில் சிறந்த தரம் பெறுங்கள்.",
@@ -759,6 +820,7 @@ function setLanguage() {
     document.getElementById("marketplaceTitle").innerText = t.title;
     document.getElementById("marketplaceDesc").innerText = t.desc;
     document.getElementById("backText").innerText = t.back;
+    document.getElementById("homeText").innerText = t.home; // Add home text translation
     document.getElementById("actionTitle").innerText = t.actionTitle;
     document.getElementById("buyTitle").innerText = t.buyTitle;
     document.getElementById("buyDesc").innerText = t.buyDesc;
