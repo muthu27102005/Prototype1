@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Buy Fresh Crops - AgriConnect</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    background: linear-gradient(135deg, #4a7c59 0%, #2d5016 50%, #87a96b 100%);
+    min-height: 100vh;
+    color: #333;
+    overflow-x: hidden;
+  }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.95), rgba(56, 142, 60, 0.95));
+    backdrop-filter: blur(15px);
+    color: white;
+    font-size: 2.5em;
+    font-weight: 800;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 10;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    border-bottom: 4px solid rgba(255,255,255,0.2);
+  }
+
+  /* Main container */
+  #container {
+    max-width: 1200px;
+    margin: 30px auto;
+    background: linear-gradient(135deg, rgba(255, 248, 225, 0.98), rgba(245, 245, 220, 0.95));
+    backdrop-filter: blur(20px);
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 10;
+    border: 3px solid rgba(76, 175, 80, 0.4);
+  }
+
+  /* Search and filters */
+  .search-section {
+    background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    border-left: 5px solid #4caf50;
+  }
+
+  .search-header {
+    text-align: center;
+    color: #2e7d32;
+    font-size: 1.8em;
+    font-weight: 700;
+    margin-bottom: 25px;
+  }
+
+  .search-controls {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 15px;
+    align-items: end;
+  }
+
+  .search-input {
+    padding: 15px 20px;
+    border: 2px solid #4caf50;
+    border-radius: 12px;
+    font-size: 1.1em;
+    background: white;
+    color: #2e7d32;
+    font-weight: 500;
+  }
+
+  .filter-select {
+    padding: 15px 20px;
+    border: 2px solid #4caf50;
+    border-radius: 12px;
+    font-size: 1em;
+    background: white;
+    color: #2e7d32;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .search-btn {
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 12px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+  }
+
+  .search-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+  }
+
+  /* Crops grid */
+  .crops-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+  }
+
+  .crop-card {
+    background: linear-gradient(135deg, #ffffff, #f1f8e9);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.15);
+    border: 2px solid rgba(139, 195, 74, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .crop-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(76, 175, 80, 0.25);
+    border-color: #4caf50;
+  }
+
+  .crop-image {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, #8bc34a, #689f38);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4em;
+    color: white;
+    position: relative;
+  }
+
+  .crop-info {
+    padding: 20px;
+  }
+
+  .crop-name {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: #2e7d32;
+    margin-bottom: 8px;
+  }
+
+  .crop-farmer {
+    color: #558b2f;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .crop-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .crop-price {
+    font-size: 1.4em;
+    font-weight: 800;
+    color: #1b5e20;
+  }
+
+  .crop-quantity {
+    color: #689f38;
+    font-weight: 600;
+  }
+
+  .crop-location {
+    color: #795548;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .buy-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .buy-btn:hover {
+    background: linear-gradient(135deg, #388e3c, #2e7d32);
+    transform: translateY(-2px);
+  }
+
+  /* Quality badges */
+  .quality-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 193, 7, 0.9);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8em;
+    font-weight: 600;
+  }
+
+  .quality-badge.organic {
+    background: rgba(76, 175, 80, 0.9);
+  }
+
+  .quality-badge.premium {
+    background: rgba(255, 152, 0, 0.9);
+  }
+
+  /* Back button */
+  .back-btn {
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: block;
+    margin: 0 auto;
+    text-decoration: none;
+  }
+
+  .back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 152, 0, 0.4);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .search-controls {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+    
+    .crops-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    #container {
+      margin: 20px;
+      padding: 25px;
+    }
+  }
+</style>
+</head>
+<body>
+<header>🛒 Buy Fresh Crops</header>
+
+<div id="container">
+  <!-- Search Section -->
+  <div class="search-section">
+    <h2 class="search-header">🌾 Find Fresh Crops</h2>
+    <div class="search-controls">
+      <input type="text" class="search-input" placeholder="Search crops (rice, wheat, tomato...)">
+      <select class="filter-select">
+        <option>All Categories</option>
+        <option>Grains</option>
+        <option>Vegetables</option>
+        <option>Fruits</option>
+        <option>Spices</option>
+      </select>
+      <select class="filter-select">
+        <option>All Locations</option>
+        <option>Tamil Nadu</option>
+        <option>Karnataka</option>
+        <option>Kerala</option>
+        <option>Andhra Pradesh</option>
+      </select>
+      <button class="search-btn">🔍 Search</button>
+    </div>
+  </div>
+
+  <!-- Crops Grid -->
+  <div class="crops-grid">
+    <!-- Rice -->
+    <div class="crop-card">
+      <div class="crop-image">🌾</div>
+      <div class="quality-badge organic">Organic</div>
+      <div class="crop-info">
+        <div class="crop-name">Basmati Rice</div>
+        <div class="crop-farmer">👨‍🌾 Raman Farms</div>
+        <div class="crop-details">
+          <div class="crop-price">₹45/kg</div>
+          <div class="crop-quantity">500kg available</div>
+        </div>
+        <div class="crop-location">📍 Thanjavur, Tamil Nadu</div>
+        <button class="buy-btn">🛒 Buy Now</button>
+      </div>
+    </div>
+
+    <!-- Tomatoes -->
+    <div class="crop-card">
+      <div class="crop-image">🍅</div>
+      <div class="quality-badge premium">Premium</div>
+      <div class="crop-info">
+        <div class="crop-name">Fresh Tomatoes</div>
+        <div class="crop-farmer">👩‍🌾 Lakshmi Gardens</div>
+        <div class="crop-details">
+          <div class="crop-price">₹25/kg</div>
+          <div class="crop-quantity">200kg available</div>
+        </div>
+        <div class="crop-location">📍 Coimbatore, Tamil Nadu</div>
+        <button class="buy-btn">🛒 Buy Now</button>
+      </div>
+    </div>
+
+    <!-- Wheat -->
+    <div class="crop-card">
+      <div class="crop-image">🌾</div>
+      <div class="quality-badge">Fresh</div>
+      <div class="crop-info">
+        <div class="crop-name">Wheat Grains</div>
+        <div class="crop-farmer">👨‍🌾 Kumar Agriculture</div>
+        <div class="crop-details">
+          <div class="crop-price">₹30/kg</div>
+          <div class="crop-quantity">1000kg available</div>
+        </div>
+        <div class="crop-location">📍 Salem, Tamil Nadu</div>
+        <button class="buy-btn">🛒 Buy Now</button>
+      </div>
+    </div>
+
+    <!-- Onions -->
+    <div class="crop-card">
+      <div class="crop-image">🧅</div>
+      <div class="quality-badge">Fresh</div>
+      <div class="crop-info">
+        <div class="crop-name">Red Onions</div>
+        <div class="crop-farmer">👨‍🌾 Murugan Farms</div>
+        <div class="crop-details">
+          <div class="crop-price">₹20/kg</div>
+          <div class="crop-quantity">300kg available</div>
+        </div>
+        <div class="crop-location">📍 Dindigul, Tamil Nadu</div>
+        <button class="buy-btn">🛒 Buy Now</button>
+      </div>
+    </div>
+
+    <!-- Carrots -->
+    <div class="crop-card">
+      <div class="crop-image">🥕</div>
+      <div class="quality-badge organic">Organic</div>
+      <div class="crop-info">
+        <div class="crop-name">Orange Carrots</div>
+        <div class="crop-farmer">👩‍🌾 Priya Organic Farm</div>
+        <div class="crop-details">
+          <div class="crop-price">₹35/kg</div>
+          <div class="crop-quantity">150kg available</div>
+        </div>
+        <div class="crop-location">📍 Ooty, Tamil Nadu</div>
+        <button class="buy-btn">🛒 Buy Now</button>
+      </div>
+    </div>
+
+    <!-- Corn -->
+    <div class="crop-card">
+      <div class="crop-image">🌽</div>
+      <div class="quality-badge premium">Premium</div>
+      <div class="crop-info">
+        <div class="crop-name">Sweet Corn</div>
+        <div class="crop-farmer">👨‍🌾 Selvam Agriculture</div>
+        <div class="crop-details">
+          <div class="crop-price">₹40/kg</div>
+          <div class="crop-quantity">250kg available</div>
+        </div>
+        <div class="crop-location">📍 Erode, Tamil Nadu</div>
+        <button class="buy-btn">🛒 Buy Now</button>
+      </div>
+    </div>
+  </div>
+
+  <a href="marketplace.html" class="back-btn">⬅ Back to Marketplace</a>
+</div>
+
+<script>
+// Search functionality
+document.querySelector('.search-btn').addEventListener('click', function() {
+  const searchTerm = document.querySelector('.search-input').value.toLowerCase();
+  const cards = document.querySelectorAll('.crop-card');
+  
+  cards.forEach(card => {
+    const cropName = card.querySelector('.crop-name').textContent.toLowerCase();
+    if (cropName.includes(searchTerm) || searchTerm === '') {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+});
+
+// Buy button functionality
+document.querySelectorAll('.buy-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const card = this.closest('.crop-card');
+    const cropName = card.querySelector('.crop-name').textContent;
+    const price = card.querySelector('.crop-price').textContent;
+    
+    this.style.background = 'linear-gradient(135deg, #388e3c, #2e7d32)';
+    this.textContent = '✅ Added to Cart';
+    
+    setTimeout(() => {
+      alert(`${cropName} (${price}) added to your cart!`);
+      this.style.background = 'linear-gradient(135deg, #4caf50, #388e3c)';
+      this.textContent = '🛒 Buy Now';
+    }, 1000);
+  });
+});
+</script>
+</body>
+</html>

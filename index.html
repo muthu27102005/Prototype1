@@ -4,89 +4,695 @@
 <meta charset="UTF-8">
 <title>AgriConnect - All in one platform for Farmers</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="style.css">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    background: linear-gradient(135deg, #4a7c59 0%, #2d5016 50%, #87a96b 100%);
+    min-height: 100vh;
+    color: #333;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Animated agricultural background */
+  .bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    background-image: 
+      radial-gradient(circle at 20% 80%, rgba(139, 195, 74, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(76, 175, 80, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(104, 159, 56, 0.1) 0%, transparent 50%);
+  }
+
+  .floating-element {
+    position: absolute;
+    opacity: 0.15;
+    animation: float 20s infinite linear;
+    font-size: 2em;
+    color: #4caf50;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(100vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.15;
+    }
+    90% {
+      opacity: 0.15;
+    }
+    100% {
+      transform: translateY(-100px) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  /* Farm-themed header */
+  header {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.95), rgba(56, 142, 60, 0.95));
+    backdrop-filter: blur(15px);
+    color: white;
+    font-size: 3em;
+    font-weight: 900;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 10;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    letter-spacing: 2px;
+    border-bottom: 4px solid rgba(255,255,255,0.2);
+    border-top: 6px solid #8bc34a;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.15), transparent);
+    animation: headerGlow 5s infinite;
+  }
+
+  @keyframes headerGlow {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+  }
+
+  /* Earth-toned container */
+  #container {
+    max-width: 1200px;
+    margin: 40px auto;
+    background: linear-gradient(135deg, rgba(255, 248, 225, 0.98), rgba(245, 245, 220, 0.95));
+    backdrop-filter: blur(20px);
+    padding: 50px;
+    border-radius: 30px;
+    box-shadow: 
+      0 25px 80px rgba(0,0,0,0.2),
+      0 0 0 2px rgba(139, 195, 74, 0.3);
+    position: relative;
+    z-index: 10;
+    border: 3px solid rgba(76, 175, 80, 0.4);
+  }
+
+  /* Farm-styled language selector */
+  .language-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 50px;
+    gap: 20px;
+    padding: 25px;
+    background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+    border-radius: 20px;
+    border-left: 6px solid #4caf50;
+    box-shadow: 0 5px 20px rgba(76, 175, 80, 0.2);
+    border: 2px solid rgba(139, 195, 74, 0.3);
+  }
+
+  #langLabel {
+    color: #2e7d32;
+    font-size: 1.3em;
+    font-weight: 700;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  #languageSelect {
+    padding: 15px 25px;
+    border: 3px solid #4caf50;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #ffffff, #f1f8e9);
+    color: #2e7d32;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.2);
+  }
+
+  #languageSelect:focus {
+    outline: none;
+    border-color: #2e7d32;
+    box-shadow: 0 0 25px rgba(76, 175, 80, 0.4);
+    transform: translateY(-2px);
+  }
+
+  /* Agricultural modules section */
+  #modules {
+    margin: 50px 0;
+  }
+
+  .modules-title {
+    text-align: center;
+    font-size: 2.2em;
+    color: #2e7d32;
+    margin-bottom: 40px;
+    font-weight: 800;
+    text-shadow: 0 2px 10px rgba(46, 125, 50, 0.3);
+    position: relative;
+  }
+
+  .modules-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #4caf50, #8bc34a);
+    border-radius: 2px;
+  }
+
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+  }
+
+  .module-card {
+    background: linear-gradient(135deg, #ffffff, #f1f8e9);
+    padding: 40px 25px;
+    border-radius: 25px;
+    border: 3px solid transparent;
+    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .module-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(139, 195, 74, 0.1), transparent);
+    transition: left 0.6s;
+  }
+
+  .module-card:hover::before {
+    left: 100%;
+  }
+
+  .module-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(76, 175, 80, 0.25);
+  }
+
+  /* Farm-themed module colors */
+  .module-card.marketplace {
+    border-color: rgba(139, 195, 74, 0.4);
+  }
+
+  .module-card.marketplace:hover {
+    border-color: #8bc34a;
+    background: linear-gradient(135deg, #f1f8e9, #e8f5e8);
+  }
+
+  .module-card.marketplace .module-icon {
+    background: linear-gradient(135deg, #8bc34a, #689f38);
+  }
+
+  .module-card.ai-image {
+    border-color: rgba(255, 193, 7, 0.4);
+  }
+
+  .module-card.ai-image:hover {
+    border-color: #ffc107;
+    background: linear-gradient(135deg, #fff8e1, #ffecb3);
+  }
+
+  .module-card.ai-image .module-icon {
+    background: linear-gradient(135deg, #ffc107, #ff8f00);
+  }
+
+  .module-card.community {
+    border-color: rgba(121, 85, 72, 0.4);
+  }
+
+  .module-card.community:hover {
+    border-color: #795548;
+    background: linear-gradient(135deg, #efebe9, #d7ccc8);
+  }
+
+  .module-card.community .module-icon {
+    background: linear-gradient(135deg, #795548, #5d4037);
+  }
+
+  .module-card.weather {
+    border-color: rgba(33, 150, 243, 0.4);
+  }
+
+  .module-card.weather:hover {
+    border-color: #2196f3;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+  }
+
+  .module-card.weather .module-icon {
+    background: linear-gradient(135deg, #2196f3, #1976d2);
+  }
+
+  .module-icon {
+    width: 80px;
+    height: 80px;
+    padding: 20px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5em;
+    color: white;
+    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .module-card:hover .module-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 12px 35px rgba(76, 175, 80, 0.4);
+  }
+
+  .module-title {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: #2e7d32;
+    text-align: center;
+    line-height: 1.3;
+    margin-top: 10px;
+  }
+
+  .module-desc {
+    font-size: 1em;
+    color: #558b2f;
+    text-align: center;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  /* Agricultural news section */
+  #newsSection {
+    background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.15);
+    border-left: 6px solid #4caf50;
+    border: 2px solid rgba(139, 195, 74, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #newsSection::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(139, 195, 74, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  #newsTitle {
+    font-size: 1.8em;
+    color: #2e7d32;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 1px 3px rgba(46, 125, 50, 0.2);
+  }
+
+  #newsList {
+    list-style: none;
+    background: linear-gradient(135deg, #ffffff, #f9fbe7);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(76, 175, 80, 0.1);
+    position: relative;
+    z-index: 2;
+    border: 1px solid rgba(139, 195, 74, 0.2);
+  }
+
+  #newsList li {
+    padding: 15px 0;
+    border-bottom: 1px solid #e8f5e8;
+    color: #2e7d32;
+    font-weight: 500;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 35px;
+    transition: all 0.3s ease;
+  }
+
+  #newsList li:last-child {
+    border-bottom: none;
+  }
+
+  #newsList li::before {
+    content: '🌾';
+    position: absolute;
+    left: 0;
+    top: 15px;
+    font-size: 1.3em;
+  }
+
+  #newsList li:hover {
+    background: linear-gradient(135deg, #f1f8e9, #e8f5e8);
+    padding-left: 45px;
+    color: #1b5e20;
+    border-radius: 8px;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    header {
+      font-size: 2.2em;
+      padding: 25px;
+    }
+
+    #container {
+      margin: 20px;
+      padding: 30px;
+    }
+
+    .modules-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .module-card {
+      padding: 30px 20px;
+    }
+
+    .language-section {
+      flex-direction: column;
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .modules-title {
+      font-size: 1.8em;
+    }
+
+    #newsSection {
+      padding: 25px;
+    }
+  }
+
+  /* Loading animation with farm theme */
+  .loading {
+    opacity: 0.7;
+    pointer-events: none;
+    position: relative;
+  }
+
+  .loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    border: 3px solid #e8f5e8;
+    border-top: 3px solid #4caf50;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    transform: translate(-50%, -50%);
+  }
+
+  @keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  /* Success animation with green theme */
+  .success-pulse {
+    animation: successPulse 0.6s ease-out;
+  }
+
+  @keyframes successPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(76, 175, 80, 0.4); }
+    100% { transform: scale(1); }
+  }
+
+  /* Welcome animation */
+  .fade-in {
+    animation: fadeIn 1s ease-out;
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Additional agricultural elements */
+  .container-decoration {
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    font-size: 1.5em;
+    color: #8bc34a;
+    opacity: 0.7;
+  }
+
+  .container-decoration:nth-child(2) {
+    top: -10px;
+    right: 20px;
+    left: auto;
+  }
+
+  .container-decoration:nth-child(3) {
+    bottom: -10px;
+    left: 20px;
+    top: auto;
+  }
+
+  .container-decoration:nth-child(4) {
+    bottom: -10px;
+    right: 20px;
+    top: auto;
+    left: auto;
+  }
+</style>
 </head>
 <body>
-<header id="headerText" style="text-align:center;">AgriConnect</header>
-<div id="container">
+<!-- Animated agricultural background -->
+<div class="bg-animation" id="bgAnimation"></div>
+
+<header id="headerText">🌾 AgriConnect</header>
+
+<div id="container" class="fade-in">
+  <!-- Agricultural decorative elements -->
+  <div class="container-decoration">🌱</div>
+  <div class="container-decoration">🌿</div>
+  <div class="container-decoration">🍃</div>
+  <div class="container-decoration">🌾</div>
+
+  <!-- Language Selection -->
+  <div class="language-section">
     <label id="langLabel">Select Language:</label>
     <select id="languageSelect" onchange="setLanguage()">
-        <option value="en">English</option>
-        <option value="ta">தமிழ்</option>
+      <option value="en">English</option>
+      <option value="ta">தமிழ்</option>
     </select>
-    <div id="modules" style="margin: 24px 0;">
-        <div style="display:flex; flex-direction:row; gap:18px; justify-content:center;">
-              <a href="marketplace.html" class="module-card" style="background:#e8f5e9; padding:24px; border-radius:16px; border:none; box-shadow:0 2px 8px #cfd8dc; display:flex; flex-direction:column; align-items:center; gap:10px; cursor:pointer; text-decoration:none; color:inherit; transition:box-shadow 0.2s;">
-                <img src="ai-technology.png" alt="MarketPlace" style="width:48px; height:48px;">
-                <span id="marketplaceTitle">MarketPlace</span>
-            </a>
-              <a href="aiimage.html" class="module-card" style="background:#fffde7; padding:24px; border-radius:16px; border:none; box-shadow:0 2px 8px #cfd8dc; display:flex; flex-direction:column; align-items:center; gap:10px; cursor:pointer; text-decoration:none; color:inherit; transition:box-shadow 0.2s;">
-                <img src="dashboard.png" alt="AI Image Detecting" style="width:48px; height:48px;">
-                <span id="aiImageTitle">AI Image Detecting</span>
-            </a>
-              <a href="community.html" class="module-card" style="background:#e3f2fd; padding:24px; border-radius:16px; border:none; box-shadow:0 2px 8px #cfd8dc; display:flex; flex-direction:column; align-items:center; gap:10px; cursor:pointer; text-decoration:none; color:inherit; transition:box-shadow 0.2s;">
-                <img src="technology.png" alt="Community" style="width:48px; height:48px;">
-                <span id="communityTitle">Community for Farmers</span>
-            </a>
-             </a>
-              <a href="aiweather.html" class="module-card" style="background:#e3f2fd; padding:24px; border-radius:16px; border:none; box-shadow:0 2px 8px #cfd8dc; display:flex; flex-direction:column; align-items:center; gap:10px; cursor:pointer; text-decoration:none; color:inherit; transition:box-shadow 0.2s;">
-                <img src="solar-energy.png" alt="Community" style="width:48px; height:48px;">
-                <span id="AI Weather Forecating">AI Weather Forecating</span>
-            </a>
-        </div>
-        <div id="newsSection" style="margin-top:32px;">
-            <h3 id="newsTitle" style="margin-bottom:12px;">Latest Agri News</h3>
-            <ul id="newsList" style="background:#f9fbe7; border-radius:8px; padding:12px; box-shadow:0 2px 8px #cfd8dc;"></ul>
-        </div>
+  </div>
+
+  <!-- Modules Section -->
+  <div id="modules">
+    <h2 class="modules-title" id="modulesTitle">Smart Farming Solutions</h2>
+    <div class="modules-grid">
+      <!-- MarketPlace Module -->
+      <a href="marketplace.html" class="module-card marketplace" onclick="handleModuleClick(this)">
+        <div class="module-icon">🏪</div>
+        <div class="module-title" id="marketplaceTitle">MarketPlace</div>
+        <div class="module-desc" id="marketplaceDesc">Buy and sell crops directly with farmers nationwide</div>
+      </a>
+
+      <!-- AI Image Detection Module -->
+      <a href="aiimage.html" class="module-card ai-image" onclick="handleModuleClick(this)">
+        <div class="module-icon">🤖</div>
+        <div class="module-title" id="aiImageTitle">AI Image Detection</div>
+        <div class="module-desc" id="aiImageDesc">Advanced crop disease detection using artificial intelligence</div>
+      </a>
+
+      <!-- Community Module -->
+      <a href="community.html" class="module-card community" onclick="handleModuleClick(this)">
+        <div class="module-icon">👥</div>
+        <div class="module-title" id="communityTitle">Farmers Community</div>
+        <div class="module-desc" id="communityDesc">Connect and share knowledge with fellow farmers</div>
+      </a>
+
+      <!-- Weather Forecasting Module -->
+      <a href="aiweather.html" class="module-card weather" onclick="handleModuleClick(this)">
+        <div class="module-icon">🌤️</div>
+        <div class="module-title" id="weatherTitle">AI Weather Forecasting</div>
+        <div class="module-desc" id="weatherDesc">Get accurate weather predictions for better crop planning</div>
+      </a>
     </div>
+  </div>
+
+  <!-- Agricultural News Section -->
+  <div id="newsSection">
+    <h3 id="newsTitle">Latest Agricultural News</h3>
+    <ul id="newsList"></ul>
+  </div>
 </div>
+
 <script>
 const translations = {
   en: {
-    header: "AgriConnect",
+    header: "🌾 AgriConnect",
     langLabel: "Select Language:",
+    modulesTitle: "Smart Farming Solutions",
     modules: {
       marketplace: "MarketPlace",
-      aiimage: "AI Image Detecting",
-      community: "Community for Farmers"
+      marketplaceDesc: "Buy and sell crops directly with farmers nationwide",
+      aiimage: "AI Image Detection",
+      aiImageDesc: "Advanced crop disease detection using artificial intelligence",
+      community: "Farmers Community",
+      communityDesc: "Connect and share knowledge with fellow farmers",
+      weather: "AI Weather Forecasting",
+      weatherDesc: "Get accurate weather predictions for better crop planning"
     },
-    newsTitle: "Latest Agri News",
+    newsTitle: "Latest Agricultural News",
     news: [
-      "Govt announces new MSP for rice and wheat.",
-      "Heavy rains expected in Tamil Nadu this week.",
-      "New AI tool helps detect crop diseases early.",
-      "Farmer community event on August 20th."
+      "Government announces new minimum support price for rice and wheat crops",
+      "Heavy monsoon rains expected across Tamil Nadu this week - prepare crops",
+      "Revolutionary AI tool helps farmers detect crop diseases 90% faster",
+      "National Farmers Conference scheduled for August 20th in Chennai",
+      "New organic farming subsidies approved for small-scale farmers"
     ]
   },
   ta: {
-    header: "AgriConnect",
+    header: "🌾 AgriConnect",
     langLabel: "மொழியை தேர்ந்தெடுக்கவும்:",
+    modulesTitle: "ஸ்மார்ட் விவசாய தீர்வுகள்",
     modules: {
       marketplace: "சந்தை",
+      marketplaceDesc: "நாடு முழுவதும் விவசாயிகளுடன் நேரடியாக பயிர்களை வாங்கி விற்கவும்",
       aiimage: "ஏ.ஐ. படம் கண்டறிதல்",
-      community: "விவசாயிகள் சமூக உரையாடல்"
+      aiImageDesc: "செயற்கை நுண்ணறிவைப் பயன்படுத்தி மேம்பட்ட பயிர் நோய் கண்டறிதல்",
+      community: "விவசாயிகள் சமூகம்",
+      communityDesc: "சக விவசாயிகளுடன் இணைந்து அறிவைப் பகிர்ந்து கொள்ளுங்கள்",
+      weather: "ஏ.ஐ. வானிலை முன்னறிவிப்பு",
+      weatherDesc: "சிறந்த பயிர் திட்டமிடலுக்கு துல்லியமான வானிலை கணிப்புகளைப் பெறுங்கள்"
     },
-    newsTitle: "சமீபத்திய Agri செய்திகள்",
+    newsTitle: "சமீபத்திய விவசாய செய்திகள்",
     news: [
-      "அரிசி மற்றும் கோதுமைக்கு புதிய குறைந்தபட்ச ஆதரவு விலை அறிவிப்பு.",
-      "இந்த வாரம் தமிழ்நாட்டில் கனமழை எதிர்பார்க்கப்படுகிறது.",
-      "பயிர் நோய்களை விரைவில் கண்டறிய புதிய ஏ.ஐ. கருவி.",
-      "ஆகஸ்ட் 20-ஆம் தேதி விவசாயிகள் சமூக நிகழ்வு." 
+      "அரிசி மற்றும் கோதுமை பயிர்களுக்கு புதிய குறைந்தபட்ச ஆதரவு விலை அறிவிப்பு",
+      "இந்த வாரம் தமிழ்நாடு முழுவதும் கனமழை எதிர்பார்க்கப்படுகிறது - பயிர்களை தயார்படுத்துங்கள்",
+      "புரட்சிகர ஏ.ஐ. கருவி விவசாயிகளுக்கு 90% வேகமாக பயிர் நோய்களைக் கண்டறிய உதவுகிறது",
+      "ஆகஸ்ட் 20-ஆம் தேதி சென்னையில் தேசிய விவசாயிகள் மாநாடு நடைபெற உள்ளது",
+      "சிறு அளவிலான விவசாயிகளுக்கு புதிய இயற்கை விவசாய மானியங்கள் அங்கீகரிக்கப்பட்டுள்ளன"
     ]
   }
 };
+
+// Create floating agricultural elements
+function createFloatingElements() {
+  const bgAnimation = document.getElementById('bgAnimation');
+  const farmIcons = ['🌾', '🌱', '🚜', '🌽', '🍅', '🥕', '🥔', '🧅', '🌿', '☀️', '🍃', '🌻', '🎋', '🌾', '🚰'];
+  
+  for (let i = 0; i < 25; i++) {
+    const element = document.createElement('div');
+    element.className = 'floating-element';
+    element.textContent = farmIcons[Math.floor(Math.random() * farmIcons.length)];
+    element.style.left = Math.random() * 100 + '%';
+    element.style.animationDelay = Math.random() * 20 + 's';
+    element.style.animationDuration = (Math.random() * 15 + 15) + 's';
+    element.style.fontSize = (Math.random() * 1.5 + 1.2) + 'em';
+    bgAnimation.appendChild(element);
+  }
+}
+
+// Handle module click with agricultural loading animation
+function handleModuleClick(element) {
+  element.classList.add('loading');
+  
+  setTimeout(() => {
+    element.classList.remove('loading');
+    element.classList.add('success-pulse');
+    
+    setTimeout(() => {
+      element.classList.remove('success-pulse');
+    }, 600);
+  }, 800);
+}
+
+// Set language with smooth agricultural transition
 function setLanguage() {
   const lang = document.getElementById("languageSelect").value;
-  document.getElementById("headerText").innerText = translations[lang].header;
-  document.getElementById("langLabel").innerText = translations[lang].langLabel;
-  document.getElementById("marketplaceTitle").innerText = translations[lang].modules.marketplace;
-  document.getElementById("aiImageTitle").innerText = translations[lang].modules.aiimage;
-  document.getElementById("communityTitle").innerText = translations[lang].modules.community;
-  document.getElementById("newsTitle").innerText = translations[lang].newsTitle;
-  const newsList = document.getElementById("newsList");
-  newsList.innerHTML = translations[lang].news.map(item => `<li>${item}</li>`).join("");
+  const t = translations[lang];
+  
+  // Add fade effect
+  const container = document.getElementById('container');
+  container.style.opacity = '0.7';
+  
+  setTimeout(() => {
+    document.getElementById("headerText").innerText = t.header;
+    document.getElementById("langLabel").innerText = t.langLabel;
+    document.getElementById("modulesTitle").innerText = t.modulesTitle;
+    
+    document.getElementById("marketplaceTitle").innerText = t.modules.marketplace;
+    document.getElementById("marketplaceDesc").innerText = t.modules.marketplaceDesc;
+    
+    document.getElementById("aiImageTitle").innerText = t.modules.aiimage;
+    document.getElementById("aiImageDesc").innerText = t.modules.aiImageDesc;
+    
+    document.getElementById("communityTitle").innerText = t.modules.community;
+    document.getElementById("communityDesc").innerText = t.modules.communityDesc;
+    
+    document.getElementById("weatherTitle").innerText = t.modules.weather;
+    document.getElementById("weatherDesc").innerText = t.modules.weatherDesc;
+    
+    document.getElementById("newsTitle").innerText = t.newsTitle;
+    
+    const newsList = document.getElementById("newsList");
+    newsList.innerHTML = t.news.map(item => `<li>${item}</li>`).join("");
+    
+    container.style.opacity = '1';
+  }, 300);
 }
-document.addEventListener("DOMContentLoaded", setLanguage);
+
+// Initialize agricultural page
+document.addEventListener("DOMContentLoaded", function() {
+  setLanguage();
+  createFloatingElements();
+  
+  // Add staggered animation to module cards
+  const moduleCards = document.querySelectorAll('.module-card');
+  moduleCards.forEach((card, index) => {
+    card.style.animationDelay = (index * 0.2) + 's';
+    card.classList.add('fade-in');
+  });
+});
 </script>
 </body>
 </html>

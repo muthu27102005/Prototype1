@@ -4,70 +4,1222 @@
 <meta charset="UTF-8">
 <title>Community for Farmers</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="style.css">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+    overflow-x: hidden;
+  }
+
+  /* Animated background particles */
+  .particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 20s infinite linear;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(100vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100px) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  header {
+    background: rgba(56, 142, 60, 0.95);
+    color: white;
+    font-size: 2.2em;
+    font-weight: bold;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0px 4px 20px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 10;
+    border-bottom: 3px solid #2e7d32;
+  }
+
+  #container {
+    max-width: 900px;
+    margin: 30px auto;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 35px;
+    border-radius: 25px;
+    box-shadow: 0px 15px 35px rgba(0,0,0,0.2);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    z-index: 10;
+    animation: slideUp 0.6s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  label, select {
+    display: block;
+    margin: 15px auto;
+    font-size: 1.1em;
+  }
+
+  select {
+    padding: 12px 20px;
+    border: 2px solid #388e3c;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1em;
+    min-width: 200px;
+  }
+
+  select:focus {
+    outline: none;
+    border-color: #2e7d32;
+    box-shadow: 0px 0px 15px rgba(56,142,60,0.4);
+  }
+
+  .title-container {
+    text-align: center;
+    margin: 25px 0;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(25, 118, 210, 0.1), rgba(56, 142, 60, 0.1));
+    border-radius: 15px;
+    border: 1px solid rgba(25, 118, 210, 0.2);
+  }
+
+  #communityTitle {
+    color: #1976d2;
+    font-size: 2em;
+    margin: 0;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  }
+
+  .subtitle {
+    color: #666;
+    font-size: 1.1em;
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  /* Voice controls */
+  .voice-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(76, 175, 80, 0.1);
+    border-radius: 15px;
+    border: 1px solid rgba(76, 175, 80, 0.2);
+  }
+
+  .voice-btn {
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .voice-btn:hover {
+    background: linear-gradient(135deg, #388e3c, #2e7d32);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+  }
+
+  .voice-btn.recording {
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+    animation: recordingPulse 1s infinite;
+  }
+
+  .voice-btn.speaking {
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+    animation: speakingPulse 0.5s infinite;
+  }
+
+  @keyframes recordingPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  @keyframes speakingPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  .voice-status {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 0.9em;
+    color: #666;
+    min-height: 20px;
+  }
+
+  .recording-status {
+    color: #f44336;
+    font-weight: bold;
+  }
+
+  .speaking-status {
+    color: #ff9800;
+    font-weight: bold;
+  }
+
+  /* Chat container with enhanced design */
+  #communityChat {
+    height: 400px;
+    overflow-y: auto;
+    border: 2px solid #e0e0e0;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+  }
+
+  /* Custom scrollbar */
+  #communityChat::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  #communityChat::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  #communityChat::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+
+  #communityChat::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  /* Message styles */
+  .user-message {
+    background: linear-gradient(135deg, #2196f3, #1976d2);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 20px 20px 5px 20px;
+    margin: 8px 0;
+    margin-left: 20%;
+    box-shadow: 0 3px 10px rgba(33, 150, 243, 0.3);
+    animation: messageSlideIn 0.3s ease-out;
+    position: relative;
+  }
+
+  .bot-message {
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 20px 20px 20px 5px;
+    margin: 8px 0;
+    margin-right: 20%;
+    box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3);
+    animation: messageSlideIn 0.3s ease-out;
+    position: relative;
+  }
+
+  .message-controls {
+    position: absolute;
+    top: 50%;
+    right: -40px;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .user-message:hover .message-controls,
+  .bot-message:hover .message-controls {
+    opacity: 1;
+  }
+
+  .speak-btn {
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 12px;
+    color: #333;
+  }
+
+  .speak-btn:hover {
+    background: white;
+    transform: scale(1.1);
+  }
+
+  @keyframes messageSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Typing indicator */
+  .typing-indicator {
+    display: none;
+    background: #e0e0e0;
+    padding: 12px 18px;
+    border-radius: 20px;
+    margin: 8px 0;
+    margin-right: 20%;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  .typing-dots {
+    display: inline-block;
+  }
+
+  .typing-dots span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #999;
+    margin: 0 2px;
+    animation: typingDots 1.4s infinite ease-in-out;
+  }
+
+  .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+  .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+  @keyframes typingDots {
+    0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+    40% { transform: scale(1); opacity: 1; }
+  }
+
+  /* Input area */
+  .input-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    align-items: center;
+  }
+
+  #communityInput {
+    flex: 1;
+    padding: 15px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    font-size: 1em;
+    outline: none;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  #communityInput:focus {
+    border-color: #1976d2;
+    box-shadow: 0 0 20px rgba(25, 118, 210, 0.3);
+    transform: translateY(-2px);
+  }
+
+  #sendBtn {
+    background: linear-gradient(135deg, #1976d2, #1565c0);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 30px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
+    min-width: 100px;
+  }
+
+  #sendBtn:hover {
+    background: linear-gradient(135deg, #1565c0, #0d47a1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
+  }
+
+  #sendBtn:active {
+    transform: translateY(0);
+  }
+
+  /* Online users indicator */
+  .online-users {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: rgba(76, 175, 80, 0.1);
+    border-radius: 15px;
+    border: 1px solid rgba(76, 175, 80, 0.2);
+  }
+
+  .online-dot {
+    width: 12px;
+    height: 12px;
+    background: #4caf50;
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: pulse 2s infinite;
+  }
+
+  /* Back button */
+  #backBtn {
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    font-size: 1em;
+    box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+    display: block;
+    margin: 20px auto 0;
+  }
+
+  #backBtn:hover {
+    background: linear-gradient(135deg, #f57c00, #ef6c00);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+  }
+
+  /* Welcome message */
+  .welcome-message {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(233, 236, 239, 0.5);
+    border-radius: 15px;
+    border-left: 4px solid #1976d2;
+  }
+
+  /* Voice settings */
+  .voice-settings {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+    padding: 10px;
+    background: rgba(233, 236, 239, 0.3);
+    border-radius: 10px;
+    font-size: 0.9em;
+  }
+
+  .voice-setting {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .voice-setting input[type="range"] {
+    width: 80px;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    #container {
+      margin: 20px;
+      padding: 25px;
+    }
+
+    header {
+      font-size: 1.8em;
+      padding: 20px;
+    }
+
+    #communityChat {
+      height: 300px;
+    }
+
+    .input-container {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    #communityInput {
+      width: 100%;
+    }
+
+    #sendBtn {
+      width: 100%;
+    }
+
+    .user-message, .bot-message {
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+
+    .voice-controls {
+      flex-wrap: wrap;
+    }
+
+    .voice-settings {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+
+  /* Add some predefined farmer avatars */
+  .message-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  .farmer-avatar {
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+    color: white;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .user-avatar {
+    background: linear-gradient(135deg, #2196f3, #1976d2);
+    color: white;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .voice-wave {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    animation: voiceWave 2s infinite;
+    opacity: 0;
+  }
+
+  .voice-btn.recording .voice-wave {
+    opacity: 1;
+  }
+
+  @keyframes voiceWave {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1.5);
+      opacity: 0;
+    }
+  }
+
+  .error-message {
+    background: rgba(244, 67, 54, 0.1);
+    border: 1px solid rgba(244, 67, 54, 0.3);
+    color: #c62828;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px 0;
+    text-align: center;
+    font-size: 0.9em;
+  }
+</style>
 </head>
 <body>
-<header id="headerText">Community for Farmers</header>
+<div class="particles" id="particles"></div>
+
+<header id="headerText">👥 Community for Farmers</header>
+
 <div id="container">
   <label id="langLabel">Select Language:</label>
   <select id="languageSelect" onchange="setLanguage()">
     <option value="en">English</option>
     <option value="ta">தமிழ்</option>
   </select>
-  <div style="margin:24px 0 18px 0;">
-    <h2 id="communityTitle" style="color:#1976d2; font-size:1.6em; margin-bottom:8px;">Community for Farmers Module</h2>
+
+  <div class="title-container">
+    <h2 id="communityTitle">Community for Farmers Module</h2>
+    <p class="subtitle" id="subtitle">Connect, Share, and Learn with Fellow Farmers</p>
   </div>
-  <div id="communityChat" style="height:220px; overflow-y:auto; border:1px solid #cfd8dc; border-radius:8px; background:#f9fbe7; margin-bottom:12px; padding:10px;"></div>
-  <div style="display:flex; gap:12px; margin-bottom:18px;">
-    <input type="text" id="communityInput" placeholder="Ask a question or chat..." style="width:70%;">
-    <button id="sendBtn" onclick="sendCommunityMsg()" style="background:#e3f2fd; color:#1976d2; border:none; border-radius:8px; padding:12px 24px; font-size:1em; box-shadow:0 2px 8px #cfd8dc; cursor:pointer;">Send</button>
+
+  <!-- Voice Controls -->
+  <div class="voice-controls">
+    <button class="voice-btn" id="micBtn" onclick="toggleRecording()" title="Voice Input">
+      🎤
+      <div class="voice-wave"></div>
+    </button>
+    <button class="voice-btn" id="speakBtn" onclick="toggleAutoRead()" title="Auto-read messages">
+      🔊
+    </button>
+    <button class="voice-btn" id="stopBtn" onclick="stopSpeaking()" title="Stop speaking">
+      ⏹️
+    </button>
   </div>
-  <button id="backBtn" onclick="window.location.href='index.html'" style="margin-top:18px;">Back to Home</button>
+
+  <div class="voice-status" id="voiceStatus"></div>
+
+  <!-- Voice Settings -->
+  <div class="voice-settings">
+    <div class="voice-setting">
+      <label for="voiceSpeed">Speed:</label>
+      <input type="range" id="voiceSpeed" min="0.5" max="2" step="0.1" value="1">
+      <span id="speedValue">1x</span>
+    </div>
+    <div class="voice-setting">
+      <label for="voicePitch">Pitch:</label>
+      <input type="range" id="voicePitch" min="0.5" max="2" step="0.1" value="1">
+      <span id="pitchValue">1x</span>
+    </div>
+    <div class="voice-setting">
+      <label for="voiceVolume">Volume:</label>
+      <input type="range" id="voiceVolume" min="0" max="1" step="0.1" value="0.8">
+      <span id="volumeValue">80%</span>
+    </div>
+  </div>
+
+  <div class="online-users">
+    <div class="online-dot"></div>
+    <span id="onlineText">24 farmers online</span>
+  </div>
+
+  <div id="communityChat">
+    <div class="welcome-message" id="welcomeMsg">
+      Welcome to the Farmers Community! Ask questions, share experiences, and connect with fellow farmers.
+    </div>
+  </div>
+
+  <div class="typing-indicator" id="typingIndicator">
+    <div class="typing-dots">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <span id="typingText">Farmer is typing...</span>
+  </div>
+
+  <div class="input-container">
+    <input type="text" id="communityInput" placeholder="Ask a question or chat..." onkeypress="handleKeyPress(event)">
+    <button id="sendBtn" onclick="sendCommunityMsg()">
+      <span id="sendText">Send</span>
+    </button>
+  </div>
+
+  <button id="backBtn" onclick="window.location.href='index.html'">
+    ⬅ <span id="backText">Back to Home</span>
+  </button>
 </div>
+
 <script>
 const translations = {
   en: {
     header: "👥 Community for Farmers",
     langLabel: "Select Language:",
     title: "Community for Farmers Module",
+    subtitle: "Connect, Share, and Learn with Fellow Farmers",
     placeholder: "Ask a question or chat...",
     send: "Send",
     back: "Back to Home",
-    reply: "Farmer: Thanks for your question!"
+    welcome: "Welcome to the Farmers Community! Ask questions, share experiences, and connect with fellow farmers.",
+    online: "farmers online",
+    typing: "Farmer is typing...",
+    voiceStatus: {
+      listening: "🎤 Listening... Speak now",
+      processing: "🔄 Processing speech...",
+      error: "❌ Voice recognition failed. Try again.",
+      autoRead: "🔊 Auto-read enabled",
+      autoReadOff: "🔇 Auto-read disabled",
+      speaking: "🗣️ Speaking...",
+      noSpeech: "🚫 No speech detected. Try again.",
+      notSupported: "❌ Speech recognition not supported in this browser"
+    },
+    replies: [
+      "Hello! Great question about farming techniques!",
+      "I've been farming for 20 years, here's my experience...",
+      "That's a common issue during monsoon season. Try this method...",
+      "Organic farming is definitely the way forward!",
+      "Weather has been unpredictable lately. We need to adapt our methods.",
+      "Technology is helping us farm more efficiently these days.",
+      "Crop rotation has really improved my soil quality.",
+      "Thanks for sharing! This will help many farmers.",
+      "Government schemes are available for such situations.",
+      "Water conservation is crucial in today's farming."
+    ],
+    farmerNames: ["Raju", "Priya", "Kumar", "Meera", "Suresh", "Lakshmi", "Venu", "Asha"]
   },
   ta: {
     header: "👥 விவசாயிகள் சமூக உரையாடல்",
     langLabel: "மொழியை தேர்ந்தெடுக்கவும்:",
     title: "விவசாயிகள் சமூக உரையாடல் பகுதி",
+    subtitle: "சக விவசாயிகளுடன் இணைந்து, பகிர்ந்து, கற்றுக்கொள்ளுங்கள்",
     placeholder: "கேள்வி கேளுங்கள் அல்லது உரையாடுங்கள்...",
     send: "அனுப்பு",
     back: "முகப்புக்கு திரும்பவும்",
-    reply: "விவசாயி: உங்கள் கேள்விக்கு நன்றி!"
+    welcome: "விவசாயிகள் சமூகத்திற்கு வருக! கேள்விகள் கேளுங்கள், அனுபவங்களைப் பகிருங்கள், சக விவசாயிகளுடன் இணையுங்கள்.",
+    online: "விவசாயிகள் ஆன்லைனில்",
+    typing: "விவசாயி தட்டச்சு செய்கிறார்...",
+    voiceStatus: {
+      listening: "🎤 கேட்டுக்கொண்டிருக்கிறது... இப்போது பேசுங்கள்",
+      processing: "🔄 குரலை செயலாக்குகிறது...",
+      error: "❌ குரல் அறிதல் தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவும்.",
+      autoRead: "🔊 தானியங்கி வாசிப்பு இயக்கப்பட்டது",
+      autoReadOff: "🔇 தானியங்கி வாசிப்பு முடக்கப்பட்டது",
+      speaking: "🗣️ பேசுகிறது...",
+      noSpeech: "🚫 குரல் கண்டறியப்படவில்லை. மீண்டும் முயற்சிக்கவும்.",
+      notSupported: "❌ இந்த பிரவுசரில் குரல் அறிதல் ஆதரிக்கப்படவில்லை"
+    },
+    replies: [
+      "வணக்கம்! விவசாய நுட்பங்கள் பற்றிய சிறந்த கேள்வி!",
+      "நான் 20 ஆண்டுகளாக விவசாயம் செய்கிறேன், இதோ என் அனுபவம்...",
+      "மழைக்காலத்தில் இது ஒரு பொதுவான பிரச்சனை. இந்த முறையை முயற்சிக்கவும்...",
+      "இயற்கை விவசாயம் நிச்சயமாக முன்னோக்கிச் செல்லும் வழி!",
+      "சமீபத்தில் வானிலை கணிக்க முடியாதது. நம் முறைகளை மாற்றிக்கொள்ள வேண்டும்.",
+      "தொழில்நுட்பம் இன்று நமக்கு மிகவும் திறமையாக விவசாயம் செய்ய உதவுகிறது.",
+      "பயிர் சுழற்சி என் மண்ணின் தரத்தை மிகவும் மேம்படுத்தியுள்ளது.",
+      "பகிர்ந்ததற்கு நன்றி! இது பல விவசாயிகளுக்கு உதவும்.",
+      "இத்தகைய சூழ்நிலைகளுக்கு அரசாங்க திட்டங்கள் உள்ளன.",
+      "இன்றைய விவசாயத்தில் நீர் பாதுகாப்பு மிக முக்கியம்."
+    ],
+    farmerNames: ["ராஜு", "பிரியா", "குமார்", "மீரா", "சுரேஷ்", "லட்சுமி", "வேணு", "ஆஷா"]
   }
 };
+
+let messageCount = 0;
+let isRecording = false;
+let autoReadEnabled = false;
+let recognition = null;
+let synthesis = window.speechSynthesis;
+let currentUtterance = null;
+let voicesLoaded = false;
+
+// Initialize speech recognition
+function initSpeechRecognition() {
+  try {
+    if ('webkitSpeechRecognition' in window) {
+      recognition = new webkitSpeechRecognition();
+    } else if ('SpeechRecognition' in window) {
+      recognition = new SpeechRecognition();
+    } else {
+      console.log('Speech recognition not supported');
+      updateVoiceStatus('notSupported');
+      return false;
+    }
+
+    const lang = document.getElementById("languageSelect").value;
+    recognition.lang = lang === 'ta' ? 'ta-IN' : 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = function() {
+      console.log('Speech recognition started');
+      isRecording = true;
+      updateVoiceStatus('listening');
+      document.getElementById('micBtn').classList.add('recording');
+    };
+
+    recognition.onresult = function(event) {
+      console.log('Speech recognition result:', event.results);
+      const transcript = event.results[0][0].transcript;
+      document.getElementById('communityInput').value = transcript;
+      updateVoiceStatus('processing');
+      
+      setTimeout(() => {
+        sendCommunityMsg();
+        updateVoiceStatus('');
+      }, 500);
+    };
+
+    recognition.onerror = function(event) {
+      console.error('Speech recognition error:', event.error);
+      updateVoiceStatus('error');
+      isRecording = false;
+      document.getElementById('micBtn').classList.remove('recording');
+      
+      setTimeout(() => {
+        updateVoiceStatus('');
+      }, 3000);
+    };
+
+    recognition.onend = function() {
+      console.log('Speech recognition ended');
+      isRecording = false;
+      document.getElementById('micBtn').classList.remove('recording');
+      
+      // Only show no speech detected if we were listening and got no result
+      const currentStatus = document.getElementById('voiceStatus').textContent;
+      if (currentStatus.includes('Listening') || currentStatus.includes('கேட்டுக்கொண்டிருக்கிறது')) {
+        updateVoiceStatus('noSpeech');
+        setTimeout(() => {
+          updateVoiceStatus('');
+        }, 3000);
+      }
+    };
+
+    return true;
+  } catch (error) {
+    console.error('Error initializing speech recognition:', error);
+    updateVoiceStatus('notSupported');
+    return false;
+  }
+}
+
+function toggleRecording() {
+  try {
+    if (!recognition && !initSpeechRecognition()) {
+      const lang = document.getElementById("languageSelect").value;
+      alert(translations[lang].voiceStatus.notSupported);
+      return;
+    }
+
+    if (isRecording) {
+      console.log('Stopping recording');
+      recognition.stop();
+    } else {
+      console.log('Starting recording');
+      const lang = document.getElementById("languageSelect").value;
+      recognition.lang = lang === 'ta' ? 'ta-IN' : 'en-US';
+      recognition.start();
+    }
+  } catch (error) {
+    console.error('Error toggling recording:', error);
+    updateVoiceStatus('error');
+  }
+}
+
+function toggleAutoRead() {
+  autoReadEnabled = !autoReadEnabled;
+  const speakBtn = document.getElementById('speakBtn');
+  
+  if (autoReadEnabled) {
+    speakBtn.classList.add('speaking');
+    updateVoiceStatus('autoRead');
+  } else {
+    speakBtn.classList.remove('speaking');
+    updateVoiceStatus('autoReadOff');
+    stopSpeaking();
+  }
+  
+  setTimeout(() => {
+    if (!synthesis.speaking) {
+      updateVoiceStatus('');
+    }
+  }, 2000);
+}
+
+function speakText(text) {
+  if (!autoReadEnabled || !text.trim()) return;
+
+  console.log('Speaking text:', text);
+  
+  // Stop any current speech
+  stopSpeaking();
+
+  try {
+    const lang = document.getElementById("languageSelect").value;
+    const utterance = new SpeechSynthesisUtterance(text);
+    
+    // Get voice settings
+    const speed = parseFloat(document.getElementById('voiceSpeed').value);
+    const pitch = parseFloat(document.getElementById('voicePitch').value);
+    const volume = parseFloat(document.getElementById('voiceVolume').value);
+    
+    utterance.rate = speed;
+    utterance.pitch = pitch;
+    utterance.volume = volume;
+    utterance.lang = lang === 'ta' ? 'ta-IN' : 'en-US';
+
+    // Find appropriate voice
+    const voices = synthesis.getVoices();
+    const voice = voices.find(v => v.lang.startsWith(lang === 'ta' ? 'ta' : 'en'));
+    if (voice) utterance.voice = voice;
+
+    utterance.onstart = function() {
+      console.log('Speech started');
+      updateVoiceStatus('speaking');
+      document.getElementById('speakBtn').classList.add('speaking');
+    };
+
+    utterance.onend = function() {
+      console.log('Speech ended');
+      updateVoiceStatus('');
+      document.getElementById('speakBtn').classList.remove('speaking');
+      currentUtterance = null;
+    };
+
+    utterance.onerror = function(event) {
+      console.error('Speech error:', event);
+      updateVoiceStatus('');
+      document.getElementById('speakBtn').classList.remove('speaking');
+      currentUtterance = null;
+    };
+
+    currentUtterance = utterance;
+    synthesis.speak(utterance);
+  } catch (error) {
+    console.error('Error in speakText:', error);
+  }
+}
+
+function stopSpeaking() {
+  try {
+    if (synthesis.speaking) {
+      synthesis.cancel();
+    }
+    currentUtterance = null;
+    document.getElementById('speakBtn').classList.remove('speaking');
+    updateVoiceStatus('');
+  } catch (error) {
+    console.error('Error stopping speech:', error);
+  }
+}
+
+function speakMessage(text) {
+  if (!text.trim()) return;
+  
+  console.log('Speaking message:', text);
+  
+  stopSpeaking();
+  
+  try {
+    const lang = document.getElementById("languageSelect").value;
+    const utterance = new SpeechSynthesisUtterance(text);
+    
+    const speed = parseFloat(document.getElementById('voiceSpeed').value);
+    const pitch = parseFloat(document.getElementById('voicePitch').value);
+    const volume = parseFloat(document.getElementById('voiceVolume').value);
+    
+    utterance.rate = speed;
+    utterance.pitch = pitch;
+    utterance.volume = volume;
+    utterance.lang = lang === 'ta' ? 'ta-IN' : 'en-US';
+
+    const voices = synthesis.getVoices();
+    const voice = voices.find(v => v.lang.startsWith(lang === 'ta' ? 'ta' : 'en'));
+    if (voice) utterance.voice = voice;
+
+    utterance.onend = function() {
+      console.log('Message speech ended');
+    };
+
+    utterance.onerror = function(event) {
+      console.error('Message speech error:', event);
+    };
+
+    synthesis.speak(utterance);
+  } catch (error) {
+    console.error('Error in speakMessage:', error);
+  }
+}
+
+function updateVoiceStatus(status) {
+  const lang = document.getElementById("languageSelect").value;
+  const statusElement = document.getElementById('voiceStatus');
+  
+  if (status && translations[lang].voiceStatus[status]) {
+    statusElement.textContent = translations[lang].voiceStatus[status];
+    statusElement.className = 'voice-status ' + (status.includes('error') || status.includes('notSupported') ? 'error' : 
+                              status.includes('listening') || status.includes('speaking') ? 'recording-status' : 
+                              status.includes('autoRead') ? 'speaking-status' : '');
+  } else {
+    statusElement.textContent = '';
+    statusElement.className = 'voice-status';
+  }
+}
+
 function setLanguage() {
   const lang = document.getElementById("languageSelect").value;
-  document.getElementById("headerText").innerText = translations[lang].header;
-  document.getElementById("langLabel").innerText = translations[lang].langLabel;
-  document.getElementById("communityTitle").innerText = translations[lang].title;
-  document.getElementById("communityInput").placeholder = translations[lang].placeholder;
-  document.getElementById("sendBtn").innerText = translations[lang].send;
-  document.getElementById("backBtn").innerText = translations[lang].back;
+  const t = translations[lang];
+  
+  document.getElementById("headerText").innerText = t.header;
+  document.getElementById("langLabel").innerText = t.langLabel;
+  document.getElementById("communityTitle").innerText = t.title;
+  document.getElementById("subtitle").innerText = t.subtitle;
+  document.getElementById("communityInput").placeholder = t.placeholder;
+  document.getElementById("sendText").innerText = t.send;
+  document.getElementById("backText").innerText = t.back;
+  document.getElementById("welcomeMsg").innerText = t.welcome;
+  document.getElementById("onlineText").innerText = `${Math.floor(Math.random() * 30) + 15} ${t.online}`;
+  document.getElementById("typingText").innerText = t.typing;
+  
+  // Update speech recognition language
+  if (recognition) {
+    recognition.lang = lang === 'ta' ? 'ta-IN' : 'en-US';
+  }
 }
+
+function createParticles() {
+  const particlesContainer = document.getElementById('particles');
+  
+  for (let i = 0; i < 50; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 20 + 's';
+    particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+    particle.style.width = particle.style.height = Math.random() * 6 + 2 + 'px';
+    particlesContainer.appendChild(particle);
+  }
+}
+
+function addSpeakButton(messageElement, text) {
+  const controls = document.createElement('div');
+  controls.className = 'message-controls';
+  
+  const speakBtn = document.createElement('button');
+  speakBtn.className = 'speak-btn';
+  speakBtn.innerHTML = '🔊';
+  speakBtn.title = 'Read aloud';
+  speakBtn.onclick = () => speakMessage(text);
+  
+  controls.appendChild(speakBtn);
+  messageElement.appendChild(controls);
+}
+
 function sendCommunityMsg() {
   const lang = document.getElementById("languageSelect").value;
-  const input = document.getElementById("communityInput").value.trim();
-  if (!input) return;
+  const input = document.getElementById("communityInput");
+  const message = input.value.trim();
+  
+  if (!message) return;
+
   const chat = document.getElementById("communityChat");
-  chat.innerHTML += `<div style='text-align:right; color:#1976d2; margin-bottom:6px;'>${input}</div>`;
-  setTimeout(() => {
-    chat.innerHTML += `<div style='text-align:left; color:#388e3c; margin-bottom:6px;'>${translations[lang].reply}</div>`;
-    chat.scrollTop = chat.scrollHeight;
-  }, 800);
-  document.getElementById("communityInput").value = "";
+  const t = translations[lang];
+  
+  // Add user message
+  const userMsg = document.createElement('div');
+  userMsg.className = 'user-message';
+  userMsg.innerHTML = `<span class="message-avatar user-avatar">You</span>${message}`;
+  addSpeakButton(userMsg, message);
+  chat.appendChild(userMsg);
+  
+  // Clear input and scroll
+  input.value = "";
   chat.scrollTop = chat.scrollHeight;
+  
+  // Show typing indicator
+  const typingIndicator = document.getElementById("typingIndicator");
+  typingIndicator.style.display = "block";
+  chat.scrollTop = chat.scrollHeight;
+  
+  // Simulate response delay
+  setTimeout(() => {
+    typingIndicator.style.display = "none";
+    
+    // Add bot response
+    const botMsg = document.createElement('div');
+    botMsg.className = 'bot-message';
+    
+    const farmerName = t.farmerNames[Math.floor(Math.random() * t.farmerNames.length)];
+    const reply = t.replies[Math.floor(Math.random() * t.replies.length)];
+    const fullReply = `${farmerName}: ${reply}`;
+    
+    botMsg.innerHTML = `<span class="message-avatar farmer-avatar">${farmerName.charAt(0)}</span><strong>${farmerName}:</strong> ${reply}`;
+    addSpeakButton(botMsg, fullReply);
+    chat.appendChild(botMsg);
+    
+    chat.scrollTop = chat.scrollHeight;
+    messageCount++;
+    
+    // Auto-read the reply if enabled
+    if (autoReadEnabled) {
+      setTimeout(() => speakText(fullReply), 500);
+    }
+    
+    // Occasionally add another farmer joining the conversation
+    if (messageCount % 3 === 0) {
+      setTimeout(() => {
+        const secondFarmer = t.farmerNames[Math.floor(Math.random() * t.farmerNames.length)];
+        const secondReply = t.replies[Math.floor(Math.random() * t.replies.length)];
+        const secondFullReply = `${secondFarmer}: ${secondReply}`;
+        
+        const secondMsg = document.createElement('div');
+        secondMsg.className = 'bot-message';
+        secondMsg.innerHTML = `<span class="message-avatar farmer-avatar">${secondFarmer.charAt(0)}</span><strong>${secondFarmer}:</strong> ${secondReply}`;
+        addSpeakButton(secondMsg, secondFullReply);
+        chat.appendChild(secondMsg);
+        
+        chat.scrollTop = chat.scrollHeight;
+        
+        // Auto-read the second reply if enabled
+        if (autoReadEnabled) {
+          setTimeout(() => speakText(secondFullReply), 500);
+        }
+      }, 2000);
+    }
+    
+  }, 1500 + Math.random() * 2000);
 }
-document.addEventListener("DOMContentLoaded", setLanguage);
+
+function handleKeyPress(event) {
+  if (event.key === 'Enter') {
+    sendCommunityMsg();
+  }
+}
+
+// Update online count periodically
+function updateOnlineCount() {
+  const lang = document.getElementById("languageSelect").value;
+  const t = translations[lang];
+  const count = Math.floor(Math.random() * 30) + 15;
+  document.getElementById("onlineText").innerText = `${count} ${t.online}`;
+}
+
+// Add some sample messages when page loads
+function addSampleMessages() {
+  const lang = document.getElementById("languageSelect").value;
+  const t = translations[lang];
+  const chat = document.getElementById("communityChat");
+  
+  setTimeout(() => {
+    const sampleMessages = [
+      { farmer: t.farmerNames[0], message: t.replies[0] },
+      { farmer: t.farmerNames[1], message: t.replies[1] }
+    ];
+    
+    sampleMessages.forEach((sample, index) => {
+      setTimeout(() => {
+        const msg = document.createElement('div');
+        msg.className = 'bot-message';
+        const fullMessage = `${sample.farmer}: ${sample.message}`;
+        msg.innerHTML = `<span class="message-avatar farmer-avatar">${sample.farmer.charAt(0)}</span><strong>${sample.farmer}:</strong> ${sample.message}`;
+        addSpeakButton(msg, fullMessage);
+        chat.appendChild(msg);
+        chat.scrollTop = chat.scrollHeight;
+      }, index * 3000);
+    });
+  }, 2000);
+}
+
+// Voice settings event listeners
+function setupVoiceSettings() {
+  const speedSlider = document.getElementById('voiceSpeed');
+  const pitchSlider = document.getElementById('voicePitch');
+  const volumeSlider = document.getElementById('voiceVolume');
+  
+  speedSlider.addEventListener('input', function() {
+    document.getElementById('speedValue').textContent = this.value + 'x';
+  });
+  
+  pitchSlider.addEventListener('input', function() {
+    document.getElementById('pitchValue').textContent = this.value + 'x';
+  });
+  
+  volumeSlider.addEventListener('input', function() {
+    document.getElementById('volumeValue').textContent = Math.round(this.value * 100) + '%';
+  });
+}
+
+// Load voices
+function loadVoices() {
+  const voices = synthesis.getVoices();
+  voicesLoaded = voices.length > 0;
+  console.log('Voices loaded:', voices.length);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  console.log('DOM Content Loaded');
+  
+  createParticles();
+  setLanguage();
+  addSampleMessages();
+  setupVoiceSettings();
+  
+  // Initialize speech recognition
+  setTimeout(() => {
+    initSpeechRecognition();
+  }, 1000);
+  
+  // Load voices
+  loadVoices();
+  if (synthesis.onvoiceschanged !== undefined) {
+    synthesis.onvoiceschanged = loadVoices;
+  }
+  
+  // Update online count every 30 seconds
+  setInterval(updateOnlineCount, 30000);
+  
+  // Test voice functionality
+  console.log('Speech synthesis supported:', 'speechSynthesis' in window);
+  console.log('Speech recognition supported:', 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window);
+});
+
+// Add click event listeners to make sure buttons work
+document.addEventListener('click', function(event) {
+  if (event.target.closest('#micBtn')) {
+    event.preventDefault();
+    toggleRecording();
+  } else if (event.target.closest('#speakBtn')) {
+    event.preventDefault();
+    toggleAutoRead();
+  } else if (event.target.closest('#stopBtn')) {
+    event.preventDefault();
+    stopSpeaking();
+  }
+});
 </script>
 </body>
 </html>
